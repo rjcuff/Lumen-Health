@@ -1,6 +1,6 @@
 {
   "name": "lumen-health",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Personal health advisor in the terminal — powered by your Garmin data and AI",
   "bin": {
     "lumen": "bin/lumen"
