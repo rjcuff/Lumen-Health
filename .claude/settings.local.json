@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat \"C:\\\\Users\\\\ryanj\\\\Desktop\\\\ray-finance-main\\\\src\\\\ai\\\\redactor.ts\" 2>&1 | head -80)",
+      "Read(//c/Users/ryanj/Desktop/ray-finance-main/src/ai/**)"
+    ]
+  }
+}

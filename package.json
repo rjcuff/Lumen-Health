@@ -1,0 +1,61 @@
+{
+  "name": "lumen-health",
+  "version": "1.0.0",
+  "description": "Personal health advisor in the terminal — powered by your Whoop + Garmin data and Claude AI",
+  "bin": {
+    "lumen": "./bin/lumen"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --experimental-sqlite --loader ts-node/esm src/index.ts",
+    "start": "node --experimental-sqlite dist/index.js",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "axios": "^1.7.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "express": "^4.19.0",
+    "garmin-connect": "^1.6.2",
+    "inquirer": "^9.3.0",
+    "open": "^10.1.0",
+    "openai": "^6.37.0",
+    "ora": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/inquirer": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.4.0"
+  },
+  "keywords": [
+    "health",
+    "fitness",
+    "whoop",
+    "garmin",
+    "cli",
+    "ai",
+    "terminal"
+  ],
+  "license": "MIT",
+  "author": "rjcuff",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rjcuff/lumen-health.git"
+  },
+  "homepage": "https://github.com/rjcuff/lumen-health#readme",
+  "bugs": {
+    "url": "https://github.com/rjcuff/lumen-health/issues"
+  }
+}
