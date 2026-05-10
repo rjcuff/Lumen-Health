@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #09090b;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 72px 80px;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: ui-monospace, 'SFMono-Regular', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .url {
+      font-family: ui-monospace, monospace;
+      font-size: 18px;
+      color: #52525b;
+    }
+
+    .middle {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 64px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.05;
+      letter-spacing: -2px;
+    }
+
+    h1 span {
+      color: #71717a;
+    }
+
+    p {
+      font-size: 24px;
+      color: #71717a;
+      line-height: 1.5;
+      max-width: 780px;
+    }
+
+    p strong {
+      color: #a1a1aa;
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 100px;
+      padding: 8px 16px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    .badge-text {
+      font-family: ui-monospace, monospace;
+      font-size: 15px;
+      color: #71717a;
+    }
+
+    .terminal-preview {
+      font-family: ui-monospace, monospace;
+      font-size: 15px;
+      color: #3f3f46;
+      line-height: 1.7;
+    }
+
+    .green  { color: #22c55e; }
+    .yellow { color: #fbbf24; }
+    .dim    { color: #52525b; }
+    .white  { color: #f4f4f5; }
+  </style>
+</head>
+<body>
+
+  <div class="top">
+    <div class="logo">lumen</div>
+    <div class="url">lumenhealth.sh</div>
+  </div>
+
+  <div class="middle">
+    <h1>Your health coach<br/><span>lives in the terminal.</span></h1>
+    <p>Every other health app shows you your numbers.<br/><strong>Lumen tells you what to do about them.</strong></p>
+  </div>
+
+  <div class="bottom">
+    <div class="badge">
+      <div class="dot"></div>
+      <div class="badge-text">Garmin · WHOOP · Open Source · MIT</div>
+    </div>
+    <div class="terminal-preview">
+      <span class="dim">~ $ </span><span class="white">lumen ask "am I ready to train today?"</span>
+    </div>
+  </div>
+
+</body>
+</html>
+<!--
+  To generate og.png:
+  1. Open this file in Chrome
+  2. Open DevTools → toggle device toolbar (Ctrl+Shift+M)
+  3. Set custom size: 1200 × 630
+  4. Right-click page → Capture screenshot
+  5. Save as public/og.png
+-->
