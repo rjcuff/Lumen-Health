@@ -1,6 +1,6 @@
 {
   "name": "lumen-health",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Personal health advisor in the terminal — powered by your Garmin data and AI",
   "bin": {
     "lumen": "bin/lumen"
@@ -58,7 +58,7 @@
     "type": "git",
     "url": "git+https://github.com/rjcuff/lumen-health.git"
   },
-  "homepage": "https://github.com/rjcuff/lumen-health#readme",
+  "homepage": "https://lumenhealth.sh",
   "bugs": {
     "url": "https://github.com/rjcuff/lumen-health/issues"
   }

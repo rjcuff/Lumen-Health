@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  /* ── Entrance animations ─────────────────────────────────────────────────── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up { animation: fade-up 0.65s ease-out both; }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+
+  /* ── Scroll reveal ───────────────────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Card hovers ─────────────────────────────────────────────────────────── */
+  .feature-card,
+  .cmd-card {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .feature-card:hover,
+  .cmd-card:hover {
+    border-color: theme('colors.stone.300');
+    box-shadow: 0 4px 12px theme('colors.stone.200');
+  }
+  .cmd-card:hover .cmd-label {
+    color: theme('colors.stone.800');
+  }
+
+  /* ── Terminal tab buttons ────────────────────────────────────────────────── */
+  .tab-btn {
+    text-align: center;
+  }
+
+  /* ── Blinking cursor in terminal ─────────────────────────────────────────── */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background-color: #f4f4f5; /* zinc-100 */
+    animation: blink 1.1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 1px;
+  }
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary -->
+  <title>Lumen — AI Health Coach for Garmin & WHOOP Users</title>
+  <meta name="description" content="Lumen reads your Garmin or WHOOP data and tells you what to do — when to push, when to rest, and why you've been tired all week. Open source, runs locally, no cloud required." />
+  <meta name="author" content="Ryan Cuff" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="canonical" href="https://lumenhealth.sh" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://lumenhealth.sh" />
+  <meta property="og:site_name"   content="Lumen" />
+  <meta property="og:title"       content="Lumen — AI Health Coach for Garmin & WHOOP Users" />
+  <meta property="og:description" content="Lumen reads your Garmin or WHOOP data and tells you what to do — when to push, when to rest, and why you've been tired all week. Runs locally. Open source." />
+  <meta property="og:image"       content="https://lumenhealth.sh/logo.png" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@lumenhealth" />
+  <meta name="twitter:title"       content="Lumen — AI Health Coach for Garmin & WHOOP Users" />
+  <meta name="twitter:description" content="Reads your Garmin or WHOOP data and tells you what to do. When to push, when to rest, why you're tired. Lives in your terminal." />
+  <meta name="twitter:image"       content="https://lumenhealth.sh/logo.png" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Lumen",
+    "url": "https://lumenhealth.sh",
+    "description": "An open-source AI health coach that reads your Garmin or WHOOP biometric data and gives you plain-language guidance — when to train hard, when to rest, and what your body is actually telling you.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "macOS, Windows, Linux",
+    "softwareVersion": "1.0.1",
+    "license": "https://opensource.org/licenses/MIT",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Ryan Cuff",
+      "url": "https://github.com/rjcuff"
+    },
+    "keywords": "garmin coach, whoop analysis, HRV tracking, sleep recovery, biometric ai, health terminal, open source health"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body class="bg-white text-stone-900 antialiased">
+
+  <!-- ─── NAV ──────────────────────────────────────────────────────────────── -->
+  <nav class="sticky top-0 z-50 border-b border-stone-200 backdrop-blur-xl bg-white/90">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <span class="font-mono font-bold text-stone-900 text-lg tracking-tight">lumen</span>
+      <div class="flex items-center gap-6">
+        <a href="#how-it-works" class="text-sm text-stone-500 hover:text-stone-900 transition-colors hidden sm:block">How it works</a>
+        <a href="#features"     class="text-sm text-stone-500 hover:text-stone-900 transition-colors hidden sm:block">Features</a>
+        <a href="#privacy"      class="text-sm text-stone-500 hover:text-stone-900 transition-colors hidden sm:block">Privacy</a>
+        <a href="https://github.com/rjcuff/lumen-health" target="_blank" rel="noopener"
+           class="flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-900 transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="#install" class="bg-stone-900 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-stone-700 transition-colors">Install</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─────────────────────────────────────────────────────────────── -->
+  <section class="max-w-5xl mx-auto px-6 pt-14 sm:pt-20 pb-12 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-6 fade-up delay-1">
+        Your health coach<br/>
+        <span class="text-stone-400">lives in the terminal.</span>
+      </h1>
+
+      <p class="text-base sm:text-xl text-stone-500 leading-relaxed mb-10 fade-up delay-2">
+        Every other health app shows you your numbers. Lumen tells you what to do about them&nbsp;— using your real Garmin data, running locally on your machine.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 fade-up delay-3">
+        <button class="copy-btn flex items-center gap-2 sm:gap-3 bg-stone-50 border border-stone-300 rounded-xl px-4 sm:px-5 py-3.5 font-mono text-xs sm:text-sm hover:border-stone-400 hover:bg-stone-100 transition-all group max-w-full overflow-hidden">
+          <span class="text-stone-400 select-none flex-none">$</span>
+          <span class="copy-text text-stone-900 truncate">npm install -g lumen-health</span>
+          <svg class="copy-icon w-4 h-4 text-stone-400 group-hover:text-stone-600 transition-colors ml-1 flex-none hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+        </button>
+        <a href="#demo" class="flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-colors text-sm py-3.5">
+          See it in action
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+
+      <p class="text-xs text-stone-400 font-mono mt-4 fade-up delay-3">Requires Node.js 22+ · Garmin Connect or WHOOP account</p>
+    </div>
+  </section>
+
+  <!-- ─── TERMINAL DEMO ────────────────────────────────────────────────────── -->
+  <section id="demo" class="max-w-5xl mx-auto px-6 pb-28 reveal">
+    <div class="rounded-2xl border border-stone-200 overflow-hidden shadow-xl shadow-stone-200/60">
+
+      <!-- Title bar -->
+      <div class="bg-zinc-900 px-4 py-3 flex items-center gap-3 border-b border-zinc-800">
+        <div class="flex gap-1.5">
+          <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+          <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+          <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+        </div>
+        <span class="text-xs text-zinc-500 font-mono mx-auto">lumen — zsh</span>
+      </div>
+
+      <!-- Tabs — equal width, fill full bar -->
+      <div class="bg-zinc-800/80 border-b border-zinc-700 flex w-full">
+        <button data-tab="status"   class="tab-btn flex-1 py-2.5 text-xs font-mono border-r border-zinc-700 transition-colors">Status</button>
+        <button data-tab="ask"      class="tab-btn flex-1 py-2.5 text-xs font-mono border-r border-zinc-700 transition-colors">Ask</button>
+        <button data-tab="recovery" class="tab-btn flex-1 py-2.5 text-xs font-mono border-r border-zinc-700 transition-colors">Recovery</button>
+        <button data-tab="goals"    class="tab-btn flex-1 py-2.5 text-xs font-mono border-r border-zinc-700 transition-colors">Goals</button>
+        <button data-tab="plan"     class="tab-btn flex-1 py-2.5 text-xs font-mono transition-colors">Plan</button>
+      </div>
+
+      <!-- Terminal output — filled by JS -->
+      <div id="terminal-output"
+           class="bg-zinc-950 px-4 sm:px-6 py-5 font-mono text-[11px] sm:text-sm leading-[1.85] min-h-[380px] sm:min-h-[440px] max-h-[520px] overflow-y-auto overflow-x-auto whitespace-pre-wrap break-words">
+      </div>
+
+      <!-- Status bar -->
+      <div class="bg-zinc-900 border-t border-zinc-800 px-6 py-2">
+        <span id="status-bar" class="text-xs text-zinc-600 font-mono">lumen · garmin · synced 2m ago</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HOW IT WORKS ─────────────────────────────────────────────────────── -->
+  <section id="how-it-works" class="bg-stone-50 border-y border-stone-200 py-24 reveal">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-stone-900">Up and running in minutes</h2>
+      <p class="text-stone-500 mb-16 max-w-lg">No account needed. No subscription. Your data never leaves your machine unless you want it to.</p>
+      <div class="grid sm:grid-cols-3 gap-12">
+        <div>
+          <div class="text-7xl font-black text-stone-200 mb-5 font-mono select-none">01</div>
+          <h3 class="text-lg font-semibold mb-2 text-stone-900">Install</h3>
+          <p class="text-stone-500 text-sm leading-relaxed mb-4">One command. Your AI coach is running in under a minute.</p>
+          <div class="bg-white border border-stone-200 rounded-xl px-4 py-3 font-mono text-xs text-stone-700 leading-relaxed shadow-sm">
+            npm install -g lumen-health<br/>lumen setup
+          </div>
+        </div>
+        <div>
+          <div class="text-7xl font-black text-stone-200 mb-5 font-mono select-none">02</div>
+          <h3 class="text-lg font-semibold mb-2 text-stone-900">Connect your device</h3>
+          <p class="text-stone-500 text-sm leading-relaxed mb-4">Link your Garmin or WHOOP. All biometric data syncs directly to your machine.</p>
+          <div class="bg-white border border-stone-200 rounded-xl px-4 py-3 font-mono text-xs text-stone-700 leading-relaxed shadow-sm">
+            lumen link garmin<br/>lumen sync
+          </div>
+        </div>
+        <div>
+          <div class="text-7xl font-black text-stone-200 mb-5 font-mono select-none">03</div>
+          <h3 class="text-lg font-semibold mb-2 text-stone-900">Talk to your coach</h3>
+          <p class="text-stone-500 text-sm leading-relaxed mb-4">Ask anything. Get a direct answer based on your actual biometric data.</p>
+          <div class="bg-white border border-stone-200 rounded-xl px-4 py-3 font-mono text-xs text-stone-700 leading-relaxed shadow-sm">
+            lumen ask "am I ready to<br/>train hard today?"
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FEATURES ─────────────────────────────────────────────────────────── -->
+  <section id="features" class="py-24 reveal">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-stone-900">Ask the question you actually have</h2>
+      <p class="text-stone-500 mb-16 max-w-lg">Your Garmin already knows a lot. Lumen puts words to it — in plain English, not graphs.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="feature-card bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+          <p class="font-mono text-sm text-green-600 mb-3 leading-relaxed">"Am I ready to train hard today?"</p>
+          <p class="text-sm text-stone-500 leading-relaxed">Looks at your HRV, last night's sleep, and recovery trend. Gives you a straight answer, not a dashboard to interpret yourself.</p>
+        </div>
+        <div class="feature-card bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+          <p class="font-mono text-sm text-green-600 mb-3 leading-relaxed">"Why have I been so tired this week?"</p>
+          <p class="text-sm text-stone-500 leading-relaxed">Pulls together sleep stages, body battery, and training load across the week and tells you what's actually dragging you down.</p>
+        </div>
+        <div class="feature-card bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+          <p class="font-mono text-sm text-green-600 mb-3 leading-relaxed">"Is my body fighting something?"</p>
+          <p class="text-sm text-stone-500 leading-relaxed">Elevated resting HR and tanking HRV often show up 1–2 days before you feel sick. Lumen flags it early so you can act on it.</p>
+        </div>
+        <div class="feature-card bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+          <p class="font-mono text-sm text-green-600 mb-3 leading-relaxed">"Am I overtraining?"</p>
+          <p class="text-sm text-stone-500 leading-relaxed">Watches your strain-to-recovery ratio day over day. Tells you when you're digging a hole before you're already in it.</p>
+        </div>
+        <div class="feature-card bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+          <p class="font-mono text-sm text-green-600 mb-3 leading-relaxed">"What should I do today?"</p>
+          <p class="text-sm text-stone-500 leading-relaxed">Builds a daily plan around your actual numbers — morning readiness check, what to do at the gym, and how to set up a good night's sleep.</p>
+        </div>
+        <div class="feature-card bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+          <p class="font-mono text-sm text-green-600 mb-3 leading-relaxed">"Am I on track for my goals?"</p>
+          <p class="text-sm text-stone-500 leading-relaxed">Set a target — run a faster 5k, sleep 8 hours, keep recovery above 67. Lumen tracks it and tells you where you're slipping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── COMMANDS ─────────────────────────────────────────────────────────── -->
+  <section class="bg-stone-50 border-y border-stone-200 py-24 reveal">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-stone-900">Every view you need</h2>
+      <p class="text-stone-500 mb-16 max-w-lg">Six commands. Each one answers a real question athletes ask every morning.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="cmd-card bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+          <div class="font-mono text-sm text-stone-600 mb-2 cmd-label">lumen status</div>
+          <p class="text-sm text-stone-400 leading-relaxed">Today's full dashboard — recovery, sleep stages, HRV, and activity at a glance.</p>
+        </div>
+        <div class="cmd-card bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+          <div class="font-mono text-sm text-stone-600 mb-2 cmd-label">lumen ask "..."</div>
+          <p class="text-sm text-stone-400 leading-relaxed">Your AI coach. Ask anything — get a real answer grounded in your biometric data.</p>
+        </div>
+        <div class="cmd-card bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+          <div class="font-mono text-sm text-stone-600 mb-2 cmd-label">lumen recovery</div>
+          <p class="text-sm text-stone-400 leading-relaxed">7-day recovery trend with HRV, RHR, and sleep averages. See the pattern over time.</p>
+        </div>
+        <div class="cmd-card bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+          <div class="font-mono text-sm text-stone-600 mb-2 cmd-label">lumen goals</div>
+          <p class="text-sm text-stone-400 leading-relaxed">Set training and recovery targets. Track streaks and progress automatically.</p>
+        </div>
+        <div class="cmd-card bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+          <div class="font-mono text-sm text-stone-600 mb-2 cmd-label">lumen plan</div>
+          <p class="text-sm text-stone-400 leading-relaxed">AI-generated daily plan with training priority and evening optimization guidance.</p>
+        </div>
+        <div class="cmd-card bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+          <div class="font-mono text-sm text-stone-600 mb-2 cmd-label">lumen history</div>
+          <p class="text-sm text-stone-400 leading-relaxed">Last 7 days of sleep, recovery, HRV, and activity in a single clean table.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PRIVACY ───────────────────────────────────────────────────────────── -->
+  <section id="privacy" class="py-24 reveal">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-stone-900">Your health data stays on your machine</h2>
+      <p class="text-stone-500 mb-16 max-w-xl">Health data is sensitive. Lumen stores everything locally in SQLite and never phones home. You control where it goes.</p>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="border border-stone-200 rounded-2xl p-6 bg-white shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-stone-100 flex items-center justify-center mb-4">
+            <svg class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2 text-stone-900">Stored locally in SQLite</h3>
+          <p class="text-sm text-stone-500 leading-relaxed">Every sleep score, HRV reading, and recovery number lives in a SQLite file on your machine. No cloud, no login, no syncing you didn't ask for.</p>
+        </div>
+        <div class="border border-stone-200 rounded-2xl p-6 bg-white shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-stone-100 flex items-center justify-center mb-4">
+            <svg class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2 text-stone-900">Names stripped before AI sees it</h3>
+          <p class="text-sm text-stone-500 leading-relaxed">Before any data reaches a cloud AI provider, personal identifiers are redacted. You can audit exactly what gets sent — it's all open source.</p>
+        </div>
+        <div class="border border-stone-200 rounded-2xl p-6 bg-white shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-stone-100 flex items-center justify-center mb-4">
+            <svg class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2 text-stone-900">Works fully offline with Ollama</h3>
+          <p class="text-sm text-stone-500 leading-relaxed">Run a local model with Ollama and nothing ever leaves your device. Cloud AI (Anthropic, OpenAI) is there if you want it — not required.</p>
+        </div>
+        <div class="border border-stone-200 rounded-2xl p-6 bg-white shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-stone-100 flex items-center justify-center mb-4">
+            <svg class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2 text-stone-900">MIT licensed and open source</h3>
+          <p class="text-sm text-stone-500 leading-relaxed">Every line of code is on GitHub. No black boxes, no hidden telemetry. Fork it, audit it, run your own version.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DEVICES ───────────────────────────────────────────────────────────── -->
+  <section class="bg-stone-50 border-y border-stone-200 py-24 reveal">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-stone-900">Works with your device</h2>
+      <p class="text-stone-500 mb-12 max-w-lg">You're already wearing the thing and collecting the data. Lumen is just the part that tells you what it actually means.</p>
+      <div class="grid sm:grid-cols-2 gap-5 max-w-2xl">
+        <div class="border border-stone-200 rounded-2xl p-6 flex items-start gap-4 bg-white shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center flex-none">
+            <svg class="w-5 h-5 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-1 text-stone-900">Garmin Connect</h3>
+            <p class="text-sm text-stone-500 leading-relaxed">Sleep, HRV, RHR, body battery, stress, steps, calories, and more.</p>
+          </div>
+        </div>
+        <div class="border border-stone-200 rounded-2xl p-6 flex items-start gap-4 bg-white shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center flex-none">
+            <svg class="w-5 h-5 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-1 text-stone-900">WHOOP <span class="text-xs text-stone-400 font-normal ml-1">coming soon</span></h3>
+            <p class="text-sm text-stone-500 leading-relaxed">Recovery score, strain, sleep performance, and respiratory rate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ───────────────────────────────────────────────────────────────── -->
+  <section id="install" class="bg-stone-900">
+    <div class="max-w-5xl mx-auto px-6 py-28 text-center reveal">
+      <h2 class="text-3xl sm:text-4xl lg:text-6xl font-bold mb-5 tracking-tight text-white">
+        Stop guessing.<br/>
+        <span class="text-stone-400">Your data knows the answer.</span>
+      </h2>
+      <p class="text-stone-400 mb-12 max-w-md mx-auto text-lg">Your Garmin has been collecting this stuff for months. It's time to actually use it.</p>
+      <button class="copy-btn inline-flex items-center gap-2 sm:gap-3 bg-stone-800 border border-stone-700 hover:border-stone-500 rounded-xl px-4 sm:px-6 py-4 font-mono text-xs sm:text-sm transition-all group mx-auto mb-4 max-w-full overflow-hidden">
+        <span class="text-stone-500 select-none flex-none">$</span>
+        <span class="copy-text text-stone-100 truncate">npm install -g lumen-health</span>
+        <svg class="copy-icon w-4 h-4 text-stone-500 group-hover:text-stone-300 transition-colors flex-none hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+      </button>
+      <p class="text-stone-600 text-xs font-mono">Requires Node.js 22+ · MIT License · Open Source</p>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────────────────────── -->
+  <footer class="border-t border-stone-200 bg-white">
+    <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <span class="font-mono font-bold text-stone-400">lumen</span>
+      <div class="flex items-center gap-6 text-xs text-stone-400">
+        <a href="https://github.com/rjcuff/lumen-health" target="_blank" rel="noopener" class="hover:text-stone-700 transition-colors">GitHub</a>
+        <a href="https://www.npmjs.com/package/lumen-health" target="_blank" rel="noopener" class="hover:text-stone-700 transition-colors">npm</a>
+        <span>MIT License</span>
+        <span>Built by Ryan Cuff</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

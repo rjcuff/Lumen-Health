@@ -1,46 +1,41 @@
-import chalk from 'chalk';
 import { computeAndSaveScore, getUnlockedAchievements } from '../ai/scoring';
 import { getAuditLog } from '../ai/audit';
 import { todayDateString } from '../utils/normalize';
-import { blank, dim, val, good, warn, bad, bar, DOT, footer } from '../utils/format';
+import { blank, dim, val, good, bar, DOT, footer, heading, scoreWithLabel, padColumns } from '../utils/format';
 
 export async function runScore(): Promise<void> {
-  const date  = todayDateString();
-  const score = computeAndSaveScore(date);
+  const date         = todayDateString();
+  const score        = computeAndSaveScore(date);
   const achievements = getUnlockedAchievements();
 
   blank();
 
-  // Main score line
-  const scoreStr = score.score >= 67
-    ? chalk.hex('#22c55e')(String(score.score))
-    : score.score >= 34
-      ? chalk.hex('#fbbf24')(String(score.score))
-      : chalk.hex('#ef4444')(String(score.score));
-
-  console.log(
-    scoreStr + dim('/100') + DOT + dim(score.label) + DOT + dim(date)
-  );
-  console.log(bar(score.score, 24));
-
+  // ── Main score ─────────────────────────────────────────────────────────────
+  console.log(heading('Readiness Score'));
+  console.log('  ' + scoreWithLabel(score.score) + '  ' + bar(score.score, 24));
+  console.log('  ' + dim(score.label));
   blank();
 
-  // Component breakdown
+  // ── Component breakdown ────────────────────────────────────────────────────
+  const metrics: [string, string][] = [];
   if (score.recovery_score != null)
-    console.log(dim('recovery  ') + val(score.recovery_score.toFixed(0)));
+    metrics.push([dim('recovery'), val(score.recovery_score.toFixed(0))]);
   if (score.sleep_score != null)
-    console.log(dim('sleep     ') + val(score.sleep_score.toFixed(0)));
+    metrics.push([dim('sleep'), val(score.sleep_score.toFixed(0))]);
   if (score.hrv_ms != null)
-    console.log(dim('hrv       ') + val(score.hrv_ms.toFixed(0) + 'ms'));
+    metrics.push([dim('hrv'), val(score.hrv_ms.toFixed(0) + 'ms')]);
   if (score.sleep_duration_min != null) {
     const h = Math.floor(score.sleep_duration_min / 60);
     const m = Math.round(score.sleep_duration_min % 60);
-    console.log(dim('sleep dur ') + val(`${h}h ${m}m`));
+    metrics.push([dim('sleep duration'), val(`${h}h ${m}m`)]);
   }
 
-  blank();
+  if (metrics.length) {
+    console.log(padColumns(metrics));
+    blank();
+  }
 
-  // Streaks
+  // ── Streaks ────────────────────────────────────────────────────────────────
   const streaks = [
     { label: 'recovery ≥ 67', days: score.streak_recovery },
     { label: 'sleep ≥ 7h',    days: score.streak_sleep },
@@ -48,34 +43,35 @@ export async function runScore(): Promise<void> {
   ].filter(s => s.days > 0);
 
   if (streaks.length) {
-    console.log(dim('streaks'));
+    console.log(heading('Streaks'));
     for (const s of streaks) {
-      const icon = s.days >= 7 ? '🔥' : s.days >= 3 ? '⚡' : '·';
-      console.log(dim('  ' + icon + ' ') + val(String(s.days) + 'd') + dim(' ' + s.label));
+      const icon = s.days >= 7 ? '🔥' : s.days >= 3 ? '⚡' : dim('·');
+      console.log('  ' + icon + ' ' + val(String(s.days) + 'd') + dim('  ' + s.label));
     }
     blank();
   }
 
-  // Achievements
+  // ── Achievements ───────────────────────────────────────────────────────────
   if (achievements.length) {
-    console.log(dim('achievements'));
+    console.log(heading('Achievements'));
     for (const a of achievements) {
-      console.log(good('  ✓') + dim(' ') + val(a.name) + dim('  ' + a.description));
+      console.log(good('  ✓') + '  ' + val(a.name) + dim('  ' + a.description));
     }
     blank();
   }
 
-  // Recent AI calls (audit log)
+  // ── Recent AI calls ────────────────────────────────────────────────────────
   const log = getAuditLog(5);
   if (log.length) {
-    console.log(dim('recent ai calls'));
+    console.log(heading('Recent AI Calls'));
     for (const entry of log) {
       const tokens = entry.prompt_tokens != null
         ? dim(` · ${entry.prompt_tokens + (entry.completion_tokens ?? 0)} tokens`)
         : '';
       console.log(
-        dim('  ' + entry.called_at.slice(0, 16)) +
-        dim(' · ') + val(entry.type) +
+        '  ' +
+        dim(entry.called_at.slice(0, 16)) + DOT +
+        val(entry.type) +
         dim(' · ' + entry.provider + ' / ' + entry.model) +
         tokens
       );
@@ -83,5 +79,5 @@ export async function runScore(): Promise<void> {
     blank();
   }
 
-  footer(['lumen', 'lumen ask "what should I focus on today?"']);
+  footer(['lumen', 'try: lumen ask "what should I focus on today?"']);
 }

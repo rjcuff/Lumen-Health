@@ -8,16 +8,26 @@ import { ensureAiReady } from '../utils/checkAi';
 
 export async function runAsk(question: string): Promise<void> {
   const profile = getProfile();
-  if (!profile) { printError('run lumen setup first'); process.exit(1); }
-  if (!question.trim()) { printError('provide a question — lumen ask "am I ready to train?"'); process.exit(1); }
+  if (!profile) {
+    printError('run lumen setup first');
+    process.exit(1);
+  }
+  if (!question.trim()) {
+    printError('provide a question', 'example: lumen ask "am I ready to train today?"');
+    process.exit(1);
+  }
 
   await ensureAiReady();
 
   blank();
-  console.log(chalk.hex('#6b7280')('"') + chalk.hex('#f9fafb')(question) + chalk.hex('#6b7280')('"'));
+  console.log(chalk.hex('#4b5563')('❯ ') + chalk.hex('#f9fafb')(question));
   blank();
 
-  const spinner = ora({ text: '', prefixText: dim('thinking'), color: 'white' }).start();
+  const spinner = ora({
+    text: chalk.hex('#6b7280')('thinking...'),
+    color: 'white',
+    spinner: 'dots',
+  }).start();
 
   try {
     const answer = await askLumen(question, {
@@ -27,7 +37,7 @@ export async function runAsk(question: string): Promise<void> {
     });
     spinner.stop();
     printAiResponse(answer);
-    footer(['lumen', 'lumen plan for a full day plan']);
+    footer(['lumen', 'try: lumen plan for a full day plan']);
   } catch (err) {
     spinner.stop();
     printError((err as Error).message);

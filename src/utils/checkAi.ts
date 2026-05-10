@@ -12,23 +12,26 @@ export async function ensureAiReady(): Promise<void> {
     const key = process.env.ANTHROPIC_API_KEY ?? getConfig('anthropic_api_key') ?? getConfig('openai_api_key');
     if (!key) {
       blank();
-      console.log(chalk.hex('#ef4444')('✗') + '  no api key configured');
-      console.log(dim('\n  run lumen setup --reset to add your key\n'));
+      console.log(bad('✗') + '  ' + chalk.hex('#d1d5db')('no api key configured'));
+      console.log('   ' + dim('run lumen setup --reset to add your key'));
+      blank();
       process.exit(1);
     }
     return;
   }
 
-  // ── Ollama checks ────────────────────────────────────────────────────────
+  // ── Ollama checks ──────────────────────────────────────────────────────────
 
   const model = process.env.LUMEN_MODEL ?? getConfig('ai_model') ?? 'llama3.1';
 
   // 1. Installed?
   if (!isOllamaInstalled()) {
     blank();
-    console.log(chalk.hex('#ef4444')('✗') + '  ollama is not installed');
-    console.log(dim('\n  opening ollama.com/download in your browser...'));
-    console.log(dim('  install it, then run this command again\n'));
+    console.log(bad('✗') + '  ' + chalk.hex('#d1d5db')('ollama is not installed'));
+    blank();
+    console.log('   ' + dim('to use local ai, install it at ollama.com/download'));
+    console.log('   ' + dim('or switch to claude: run ') + chalk.hex('#f9fafb')('lumen setup --reset') + dim(' to choose a different ai provider'));
+    blank();
     await openOllamaDownloadPage();
     process.exit(1);
   }
@@ -36,7 +39,7 @@ export async function ensureAiReady(): Promise<void> {
   // 2. Running?
   if (!await isOllamaRunning()) {
     blank();
-    console.log(warn('⚠') + '  ollama is not running — starting it...');
+    console.log(warnColor('⚠') + '  ' + chalk.hex('#d1d5db')('ollama is not running — starting it...'));
     startOllamaBackground();
 
     const spinner = ora({ text: 'waiting for ollama to start...', color: 'white' }).start();
@@ -47,8 +50,9 @@ export async function ensureAiReady(): Promise<void> {
         break;
       }
       if (i === 9) {
-        spinner.fail(chalk.hex('#ef4444')('ollama failed to start'));
-        console.log(dim('\n  open a new terminal and run: ollama serve\n'));
+        spinner.fail(bad('ollama failed to start'));
+        console.log('   ' + dim('open a new terminal and run: ollama serve'));
+        blank();
         process.exit(1);
       }
     }
@@ -57,16 +61,21 @@ export async function ensureAiReady(): Promise<void> {
   // 3. Model pulled?
   if (!await ollamaHasModel(model)) {
     blank();
-    console.log(warn('⚠') + '  model ' + chalk.hex('#f9fafb')(model) + dim(' not found — pulling it now...'));
-    console.log(dim('  this only happens once\n'));
+    console.log(
+      warnColor('⚠') + '  ' +
+      chalk.hex('#f9fafb')(model) +
+      chalk.hex('#6b7280')(' not found — pulling it now (this only happens once)...')
+    );
+    blank();
 
     try {
       execSync(`ollama pull ${model}`, { stdio: 'inherit' });
       blank();
       console.log(good('✓') + '  ' + chalk.hex('#f9fafb')(model) + dim(' ready'));
     } catch {
-      console.log(chalk.hex('#ef4444')('✗') + `  failed to pull ${model}`);
-      console.log(dim(`\n  try manually: ollama pull ${model}\n`));
+      console.log(bad('✗') + `  failed to pull ${model}`);
+      console.log('   ' + dim(`try manually: ollama pull ${model}`));
+      blank();
       process.exit(1);
     }
   }
@@ -76,10 +85,6 @@ function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function warn(s: string): string {
-  return chalk.hex('#fbbf24')(s);
-}
-
-function good(s: string): string {
-  return chalk.hex('#22c55e')(s);
-}
+function warnColor(s: string): string { return chalk.hex('#fbbf24')(s); }
+function good(s: string): string      { return chalk.hex('#22c55e')(s); }
+function bad(s: string): string       { return chalk.hex('#ef4444')(s); }

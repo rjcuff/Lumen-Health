@@ -14,6 +14,8 @@ import { runRemember } from './commands/remember';
 import { runDoctor } from './commands/doctor';
 import { runDemo } from './commands/demo';
 import { runScore } from './commands/score';
+import { runRecovery } from './commands/recovery';
+import { runGoals } from './commands/goals';
 
 // ─── First-run detection ──────────────────────────────────────────────────────
 
@@ -139,6 +141,26 @@ program
   .action(async () => {
     await guardSetup();
     await runScore();
+  });
+
+// ─── recovery ─────────────────────────────────────────────────────────────────
+
+program
+  .command('recovery')
+  .description('Show 7-day recovery trend — HRV, RHR, and recovery scores')
+  .action(async () => {
+    await guardSetup();
+    await runRecovery();
+  });
+
+// ─── goals ────────────────────────────────────────────────────────────────────
+
+program
+  .command('goals [subcommand] [args...]')
+  .description('Set and track your health and training goals')
+  .action(async (subcommand?: string, args?: string[]) => {
+    await guardSetup();
+    await runGoals(subcommand, args);
   });
 
 // ─── demo ─────────────────────────────────────────────────────────────────────
