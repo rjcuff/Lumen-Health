@@ -1,9 +1,9 @@
 {
   "name": "lumen-health",
   "version": "1.0.0",
-  "description": "Personal health advisor in the terminal — powered by your Whoop + Garmin data and Claude AI",
+  "description": "Personal health advisor in the terminal — powered by your Garmin data and AI",
   "bin": {
-    "lumen": "./bin/lumen"
+    "lumen": "bin/lumen"
   },
   "main": "./dist/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "bin"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.5.0"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -42,17 +42,21 @@
   "keywords": [
     "health",
     "fitness",
-    "whoop",
     "garmin",
     "cli",
     "ai",
-    "terminal"
+    "terminal",
+    "recovery",
+    "sleep",
+    "hrv",
+    "ollama",
+    "anthropic"
   ],
   "license": "MIT",
   "author": "rjcuff",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rjcuff/lumen-health.git"
+    "url": "git+https://github.com/rjcuff/lumen-health.git"
   },
   "homepage": "https://github.com/rjcuff/lumen-health#readme",
   "bugs": {
