@@ -32,30 +32,34 @@ const ACHIEVEMENTS: Achievement[] = [
 
 function scoreFromData(recovery?: HealthData, sleep?: HealthData): number {
   let score = 50;
-  let weight = 0;
+  let hasAnyData = false;
 
   if (recovery?.recovery_score != null) {
     score += (recovery.recovery_score - 50) * 0.4;
-    weight += 0.4;
+    hasAnyData = true;
   }
   if (sleep?.sleep_score != null) {
     score += (sleep.sleep_score - 50) * 0.35;
-    weight += 0.35;
+    hasAnyData = true;
   }
   if (recovery?.hrv_ms != null) {
-    // HRV: treat 60ms as neutral, ±20 = ±10 points
     const hrvDelta = (recovery.hrv_ms - 60) / 2;
     score += Math.max(-10, Math.min(10, hrvDelta));
-    weight += 0.15;
+    hasAnyData = true;
   }
   if (sleep?.sleep_duration_min != null) {
-    // 7.5h ideal, ±1h = ±5 points
     const hoursDelta = (sleep.sleep_duration_min / 60 - 7.5) * 5;
     score += Math.max(-5, Math.min(5, hoursDelta));
-    weight += 0.1;
+    hasAnyData = true;
+  }
+  // Resting HR: 45bpm = +15, 55bpm = +5, 65bpm = -5, 75bpm = -15
+  if (recovery?.resting_hr_bpm != null) {
+    const rhrDelta = (60 - recovery.resting_hr_bpm);
+    score += Math.max(-15, Math.min(15, rhrDelta));
+    hasAnyData = true;
   }
 
-  return Math.round(Math.max(0, Math.min(100, score)));
+  return hasAnyData ? Math.round(Math.max(0, Math.min(100, score))) : 50;
 }
 
 function scoreLabel(score: number): string {
@@ -90,7 +94,16 @@ function calcStreak(
 export function computeAndSaveScore(date: string): DailyScore {
   const db = getDb();
   const history = getLatestHealthData(14);
-  const today = history.filter(r => r.date === date);
+
+  // Use most recent date that has meaningful data if today is empty
+  const hasUseful = (d: string) => history.some(r =>
+    r.date === d && (r.sleep_duration_min != null || r.recovery_score != null || r.resting_hr_bpm != null)
+  );
+  const effectiveDate = hasUseful(date)
+    ? date
+    : [...new Set(history.map(r => r.date))].sort().reverse().find(d => hasUseful(d)) ?? date;
+
+  const today = history.filter(r => r.date === effectiveDate);
 
   const recovery = today.find(r => r.data_type === 'recovery');
   const sleep    = today.find(r => r.data_type === 'sleep');
@@ -128,7 +141,7 @@ export function computeAndSaveScore(date: string): DailyScore {
       streak_sleep = excluded.streak_sleep,
       streak_training = excluded.streak_training
   `).run(
-    date, score,
+    effectiveDate, score,
     recovery?.recovery_score ?? null,
     sleep?.sleep_score ?? null,
     recovery?.hrv_ms ?? null,
@@ -137,7 +150,7 @@ export function computeAndSaveScore(date: string): DailyScore {
   );
 
   return {
-    date, score, label: scoreLabel(score),
+    date: effectiveDate, score, label: scoreLabel(score),
     recovery_score: recovery?.recovery_score,
     sleep_score: sleep?.sleep_score,
     hrv_ms: recovery?.hrv_ms,

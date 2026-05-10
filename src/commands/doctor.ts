@@ -6,7 +6,10 @@ export async function runDoctor(): Promise<void> {
   blank();
 
   const profile = getProfile();
-  const hasKey  = !!(process.env.ANTHROPIC_API_KEY ?? getConfig('anthropic_api_key'));
+  const provider = process.env.LUMEN_PROVIDER ?? getConfig('ai_provider') ?? 'anthropic';
+  const hasKey = provider === 'ollama'
+    ? true  // Ollama needs no key — check separately
+    : !!(process.env.ANTHROPIC_API_KEY ?? getConfig('anthropic_api_key') ?? getConfig('openai_api_key'));
   const garmin  = getToken('garmin');
   const memories = getMemories();
 
@@ -14,9 +17,9 @@ export async function runDoctor(): Promise<void> {
     profile ? `${profile.name} · ${profile.age}y · ${profile.health_goal.replace(/_/g, ' ')}` : 'not configured',
     'lumen setup');
 
-  printCheck('anthropic key', hasKey ? 'ok' : 'missing',
-    hasKey ? 'configured' : 'missing — lumen ask and lumen plan won\'t work',
-    'lumen setup --reset');
+  const aiLabel = provider === 'ollama' ? 'ollama' : provider === 'anthropic' ? 'anthropic key' : 'openai key';
+  const aiDetail = provider === 'ollama' ? 'local · no key needed' : hasKey ? 'configured' : 'missing — lumen ask won\'t work';
+  printCheck(aiLabel, hasKey ? 'ok' : 'missing', aiDetail, hasKey ? undefined : 'lumen setup --reset');
 
   printCheck('garmin', garmin ? 'ok' : 'missing',
     garmin ? 'connected' : 'not connected',

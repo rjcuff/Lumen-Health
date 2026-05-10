@@ -3,6 +3,7 @@ import { getProfile, getHealthDataForDate, getLatestHealthData } from '../db/que
 import { generateDailyPlan } from '../ai/agent';
 import { todayDateString } from '../utils/normalize';
 import { printAiResponse, printError, blank, dim, footer, dateLine } from '../utils/format';
+import { ensureAiReady } from '../utils/checkAi';
 
 export async function runPlan(): Promise<void> {
   const profile = getProfile();
@@ -10,6 +11,8 @@ export async function runPlan(): Promise<void> {
 
   const today   = getHealthDataForDate(todayDateString());
   const history = getLatestHealthData(7);
+
+  await ensureAiReady();
 
   blank();
   dateLine(todayDateString());

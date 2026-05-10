@@ -37,5 +37,5 @@ export async function runHistory(): Promise<void> {
 
   blank();
   printHistoryTable(rows);
-  footer(['lumen', 'lumen ask "why is my HRV trending down?"']);
+  footer(['lumen', 'lumen ask "how did I sleep this week?"']);
 }

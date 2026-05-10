@@ -4,11 +4,14 @@ import { getProfile, getHealthDataForDate, getLatestHealthData } from '../db/que
 import { askLumen } from '../ai/agent';
 import { todayDateString } from '../utils/normalize';
 import { printAiResponse, printError, blank, dim, footer } from '../utils/format';
+import { ensureAiReady } from '../utils/checkAi';
 
 export async function runAsk(question: string): Promise<void> {
   const profile = getProfile();
   if (!profile) { printError('run lumen setup first'); process.exit(1); }
   if (!question.trim()) { printError('provide a question — lumen ask "am I ready to train?"'); process.exit(1); }
+
+  await ensureAiReady();
 
   blank();
   console.log(chalk.hex('#6b7280')('"') + chalk.hex('#f9fafb')(question) + chalk.hex('#6b7280')('"'));

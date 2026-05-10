@@ -79,6 +79,16 @@ export async function fetchGarminData(startDate: string, endDate: string): Promi
           restingHeartRate: hrData?.restingHeartRate,
         });
         items.push(activityNorm);
+
+        // Create a recovery record so resting HR shows in status
+        if (hrData?.restingHeartRate) {
+          items.push({
+            date: dateStr,
+            source: 'garmin',
+            data_type: 'recovery',
+            resting_hr_bpm: hrData.restingHeartRate,
+          });
+        }
       }
 
       if (sleepResult.status === 'fulfilled' && sleepResult.value) {
